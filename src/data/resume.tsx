@@ -3,15 +3,16 @@ import { HomeIcon, NotebookIcon } from "lucide-react";
 
 export const DATA = {
   name: "Ahmed Mamdouh",
+  role: "Senior Software Engineer",
   initials: "AM",
   url: "https://xerk.io",
-  location: "Giza, Egypt",
-  locationLink: "https://www.google.com/maps/place/giza",
+  location: "6th Of October, Egypt",
+  locationLink: "https://www.google.com/maps/place/october-gardens",
   description: 
     "Senior Full Stack Engineer with 7+ years of experience. Expert in TypeScript, Next.js, Nuxt.JS, Laravel, and Node.js. Building scalable web applications and mentoring teams.",
   summary: 
     "I am a Software Engineer with extensive experience in both front-end and back-end development. I've developed numerous websites, web apps, and integrated various payment systems. My expertise spans PHP, Laravel, NestJS, Node.js, React, and Next.js. I've created multiple eCommerce platforms, Learning Management Systems (LMS), School Management Systems (SMS), and SaaS applications. I have a strong track record of developing payment systems and building APIs from scratch.",
-  avatarUrl: "/me.jpg",
+  avatarUrl: "/profile.png",
   resumeUrl: "https://ggl.link/xerk-cv",
   skills: [
     "PHP",
@@ -59,7 +60,7 @@ export const DATA = {
         icon: Icons.x,
         navbar: true,
       },
-      email: {
+      Email: {
         name: "Send Email",
         url: "mailto:gm.xerk@gmail.com",
         icon: Icons.email,

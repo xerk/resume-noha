@@ -75,13 +75,13 @@ export default function Page() {
           ))}
         </div>
 
-        <div className="flex justify-center pt-4">
+        {DATA.resumeUrl && <div className="flex justify-center pt-4">
           <BlurFade delay={BLUR_FADE_DELAY * 6 + DATA.work.length * 0.05}>
             <DownloadButton href={DATA.resumeUrl} blank={true}>
               Download Resume
             </DownloadButton>
           </BlurFade>
-        </div>
+        </div>}
 
       </section>
       <section id="education">
@@ -228,11 +228,11 @@ export default function Page() {
                 and I&apos;ll respond whenever I can. I will ignore all
                 soliciting.
               </p>
-              <div className="pt-4">
+              {DATA.resumeUrl && <div className="pt-4">
                 <DownloadButton href={DATA.resumeUrl} blank={true}>
                   Download Resume
                 </DownloadButton>
-              </div>
+              </div>}
             </div>
           </BlurFade>
         </div>

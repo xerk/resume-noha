@@ -35,3 +35,27 @@ export function formatDate(date: string) {
     return `${fullDate} (${yearsAgo}y ago)`;
   }
 }
+
+export function calculateReadingTime(content: string): number {
+  // Strip HTML tags and MDX syntax
+  const cleanText = content.replace(/<[^>]*>|```[\s\S]*?```|`[^`]*`|\[.*?\]|\(.*?\)/g, '');
+  
+  // Count words
+  const words = cleanText.trim().split(/\s+/).length;
+  
+  // Average reading speed (words per minute)
+  const WPM = 225;
+  
+  // Additional time for code blocks
+  const codeBlocks = (content.match(/```[\s\S]*?```/g) || []).length;
+  const codeBlockTime = codeBlocks * 1; // Add 1 minute per code block
+  
+  // Calculate base reading time
+  const baseTime = Math.ceil(words / WPM);
+  
+  // Total reading time including code blocks
+  const totalTime = baseTime + codeBlockTime;
+  
+  // Return minimum of 1 minute
+  return Math.max(1, totalTime);
+}
