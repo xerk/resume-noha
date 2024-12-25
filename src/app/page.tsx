@@ -151,7 +151,7 @@ export default function Page() {
                     key={project.title}
                     title={project.title}
                     description={project.description}
-                    dates={project.dates}
+                    dates={project?.dates}
                     tags={project.technologies}
                     image={project.image}
                     video={project.video}
@@ -185,7 +185,7 @@ export default function Page() {
               </div>
             </div>
           </BlurFade>
-          <BlurFade delay={BLUR_FADE_DELAY * 14}>
+          {/* <BlurFade delay={BLUR_FADE_DELAY * 14}>
             <ul className="mb-4 ml-4 divide-y divide-dashed border-l">
               {DATA.hackathons.map((project, id) => (
                 <BlurFade
@@ -203,7 +203,7 @@ export default function Page() {
                 </BlurFade>
               ))}
             </ul>
-          </BlurFade>
+          </BlurFade> */}
         </div>
         </section>
       )}

@@ -15,7 +15,7 @@ interface Props {
   title: string;
   href?: string;
   description: string;
-  dates: string;
+  dates?: string;
   tags: readonly string[];
   link?: string;
   image?: string;
@@ -26,6 +26,7 @@ interface Props {
     href: string;
   }[];
   className?: string;
+  active?: boolean;
 }
 
 export function ProjectCard({

@@ -166,6 +166,7 @@ export const DATA = {
         },
       ],
       image: "/projects/alto.png",
+      video: ""
     },
     {
       title: "Laranj",
@@ -189,10 +190,12 @@ export const DATA = {
         },
       ],
       image: "/projects/laranj.png",
+      video: ""
     },
     {
       title: "Agd Ejar",
       href: "https://agd.sa",
+      dates: "",
       active: true,
       description:
         "SaaS for rental contracts, management properties, integrated with government services in Saudi Arabia, Vue.js, MySQL, and Laravel.",
@@ -212,10 +215,12 @@ export const DATA = {
         },
       ],
       image: "/projects/agd.png",
+      video: ""
     },
     {
       title: "SweepSouth",
       href: "https://sweepsouth.com",
+      dates: "2022 - 2023",
       active: true,
       description:
         "SweepSouth is home services platform, built with Lumen, Angular, MongoDB, and Docker.",
@@ -233,10 +238,12 @@ export const DATA = {
         },
       ],
       image: "/projects/sweepsouth.png",
+      video: ""
     },
     {
       title: "UptimeRobot",
       href: "https://uptimerobot.com",
+      dates: "2019 - 2020",
       active: true,
       description:
         "UptimeRobot is uptime monitoring service, built with PHP, Node.js, and MySQL.",
@@ -259,10 +266,12 @@ export const DATA = {
         },
       ],
       image: "/projects/uptimerobot.png",
+      video: ""
     },
     {
       title: "Trjim",
       href: "https://trjim.com",
+      dates: "2017 - 2019",
       active: true,
       description:
         "Trjim is translation services you are looking for in one place, built with Laravel, Vue.js, and MySQL.",
@@ -279,10 +288,12 @@ export const DATA = {
         },
       ],
       image: "/projects/trjim.png",
+      video: ""
     },
     {
       title: "Sinbad",
       href: "https://sinbadnow.com",
+      dates: "2017 - 2019",
       active: true,
       description:
         "SaaS for managing and delivering products to customers, built with Laravel, Vue.js, and MySQL.",
@@ -299,10 +310,12 @@ export const DATA = {
         },
       ],
       image: "/projects/sinbad.png",
+      video: ""
     },
     {
       title: "Teamup AI",
       href: "https://teamupai.io",
+      dates: "",
       active: false,
       description:
         "Transforming Businesses with Intelligent AI-Driven Workflow Automation and Management, built with Node.js, Vue.js, and Custom AI Models.",
@@ -319,10 +332,12 @@ export const DATA = {
         },
       ],
       image: "/projects/teamupai.png",
+      video: ""
     },
     {
       title: "Grub AI",
       href: "https://thegrub.ai",
+      dates: "",
       active: false,
       description:
         "AI-powered restaurant recommendation system and food delivery service, built with Supabase, Next.js, and TailwindCSS.",
@@ -339,6 +354,7 @@ export const DATA = {
         },
       ],
       image: "/projects/grubai.png",
+      video: ""
     }
   ],
   hackathons: [

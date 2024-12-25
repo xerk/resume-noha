@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import BlurFade from "@/components/magicui/blur-fade";
+import Image from 'next/image'
 
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
@@ -108,9 +109,11 @@ export default async function Blog({
 
           <div className="flex flex-col gap-4 mb-8">
             <div className="flex items-center gap-3">
-              <img
+              <Image
                 src={DATA.avatarUrl}
                 alt={DATA.name}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full border object-cover border-zinc-200 dark:border-zinc-800"
               />
               <div className="flex flex-col">
