@@ -29,6 +29,9 @@ Senior Full Stack Engineer with 7+ years of experience. Expert in TypeScript, Ne
 - **Styling**: TailwindCSS
 - **DevOps**: Docker, AWS, CI/CD
 
+
+![image](public/webview.png)
+
 ## 💼 Professional Experience
 
 ### Netsync (Remote, US)
