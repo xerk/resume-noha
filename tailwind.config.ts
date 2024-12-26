@@ -76,13 +76,20 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      scrollbar: ['rounded', 'dark'],
+      scrollbar: {
+        DEFAULT: {
+          size: '3px',
+          track: 'transparent',
+          thumb: 'rgb(156 163 175)', // gray-400
+          hover: 'rgb(107 114 128)', // gray-500
+        },
+      },
     },
   },
   plugins: [
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
-    require('tailwind-scrollbar'),
+    require('tailwind-scrollbar')({ nocompatible: true }),
   ],
 } satisfies Config;
 

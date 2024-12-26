@@ -3,6 +3,46 @@
 @tailwind utilities;
 
 @layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scroll-timeline: none;
+        scroll-timeline-axis: none;
+        scroll-timeline-name: none;
+        --scroll-duration: 1200ms;
+        --scroll-timing: cubic-bezier(0.45, 0.05, 0.35, 1);
+    }
+
+    /* Refined scrollbar styles */
+    ::-webkit-scrollbar {
+        @apply w-1.5 h-1.5;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-transparent rounded-full;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gray-400/60 hover:bg-gray-500/80 rounded-full 
+        transition-all duration-300 ease-in-out;
+    }
+
+    /* Firefox */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(156, 163, 175, 0.6) transparent;
+        scroll-behavior: smooth;
+    }
+
+    /* Dark mode refinements */
+    .dark ::-webkit-scrollbar-thumb {
+        @apply bg-gray-600/60 hover:bg-gray-500/80;
+    }
+
+    .dark * {
+        scrollbar-color: rgba(75, 85, 99, 0.6) transparent;
+    }
+
     :root {
       --background: 0 0% 100%;
       --foreground: 210 11.1% 3.53%;

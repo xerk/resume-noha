@@ -81,10 +81,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html 
+      lang="en" 
+      suppressHydrationWarning
+      style={{ 
+        scrollBehavior: 'smooth',
+        '--scroll-duration': '1200ms',
+        '--scroll-timing': 'cubic-bezier(0.45, 0.05, 0.35, 1)',
+      } as React.CSSProperties}
+    >
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6",
+          "scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-400/60 hover:scrollbar-thumb-gray-500/80",
+          "dark:scrollbar-thumb-gray-600/60 dark:hover:scrollbar-thumb-gray-500/80",
+          "transition-all duration-300 ease-in-out",
           fontSans.variable
         )}
       >
