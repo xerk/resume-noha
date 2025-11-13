@@ -270,39 +270,49 @@ export const FullScreenVideoPlayer = () => {
               }}
             >
               {/* Video iframe with YouTube API */}
-              <div
-                id={`player-${index}`}
-                className="absolute inset-0 w-full h-full"
-                ref={(el) => {
-                  if (el && apiReady && window.YT && !playersRef.current[index]) {
-                    playersRef.current[index] = new window.YT.Player(`player-${index}`, {
-                      height: '100%',
-                      width: '100%',
-                      videoId: videoId,
-                      playerVars: {
-                        autoplay: index === currentReelIndex ? 1 : 0,
-                        mute: 1,
-                        playsinline: 1,
-                        enablejsapi: 1,
-                        controls: 0,
-                        loop: 1,
-                        playlist: videoId,
-                        rel: 0,
-                        modestbranding: 1,
-                        iv_load_policy: 3,
-                      },
-                      events: {
-                        onReady: (event: any) => {
-                          if (index === currentReelIndex) {
-                            event.target.mute();
-                            event.target.playVideo();
-                          }
+              <div className="absolute inset-0 w-full h-full">
+                <div
+                  id={`player-${index}`}
+                  className="absolute inset-0 w-full h-full"
+                  ref={(el) => {
+                    if (el && apiReady && window.YT && !playersRef.current[index]) {
+                      playersRef.current[index] = new window.YT.Player(`player-${index}`, {
+                        height: '100%',
+                        width: '100%',
+                        videoId: videoId,
+                        playerVars: {
+                          autoplay: index === currentReelIndex ? 1 : 0,
+                          mute: 1,
+                          playsinline: 1,
+                          enablejsapi: 1,
+                          controls: 0,
+                          disablekb: 1,
+                          loop: 1,
+                          playlist: videoId,
+                          rel: 0,
+                          modestbranding: 1,
+                          iv_load_policy: 3,
+                          fs: 0,
+                          showinfo: 0,
                         },
-                      },
-                    });
-                  }
-                }}
-              />
+                        events: {
+                          onReady: (event: any) => {
+                            if (index === currentReelIndex) {
+                              event.target.mute();
+                              event.target.playVideo();
+                            }
+                          },
+                        },
+                      });
+                    }
+                  }}
+                />
+                {/* Overlay to hide YouTube controls at bottom */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+                  style={{ background: 'transparent' }}
+                />
+              </div>
 
               {/* Bottom Info Overlay */}
               <div className="absolute bottom-0 left-0 right-0 z-[10000] bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 pb-8 pointer-events-none">
