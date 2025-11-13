@@ -237,33 +237,23 @@ export const FullScreenVideoPlayer = () => {
                 overflow: 'hidden'
               }}
             >
-              {/* Wrapper to scale iframe and hide YouTube UI */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  transform: 'scale(1.5)',
-                  transformOrigin: 'center',
-                  pointerEvents: 'auto'
+              {/* Video iframe */}
+              <iframe
+                ref={(el) => {
+                  iframeRefs.current[index] = el;
                 }}
-              >
-                <iframe
-                  ref={(el) => {
-                    iframeRefs.current[index] = el;
-                  }}
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1`}
-                  className="absolute inset-0 w-full h-full"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  style={{
-                    border: 'none',
-                    display: 'block',
-                    width: '100%',
-                    height: '100%',
-                    pointerEvents: 'none'
-                  }}
-                  title="Video player"
-                  allowFullScreen
-                />
-              </div>
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&fs=0&color=white&autohide=1`}
+                className="absolute inset-0 w-full h-full"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                style={{
+                  border: 'none',
+                  display: 'block',
+                  width: '100%',
+                  height: '100%'
+                }}
+                title="Video player"
+                allowFullScreen
+              />
 
               {/* Bottom Info Overlay */}
               <div className="absolute bottom-0 left-0 right-0 z-[10000] bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 pb-8 pointer-events-none">
