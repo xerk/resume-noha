@@ -240,25 +240,27 @@ export const FullScreenVideoPlayer = () => {
               {/* Wrapper to scale iframe and hide YouTube UI */}
               <div
                 className="absolute inset-0"
-                style={{ transform: 'scale(1.5)', transformOrigin: 'center' }}
+                style={{
+                  transform: 'scale(1.5)',
+                  transformOrigin: 'center',
+                  pointerEvents: 'auto'
+                }}
               >
                 <iframe
                   ref={(el) => {
                     iframeRefs.current[index] = el;
                   }}
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=0&fs=0&color=white&autohide=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                   className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  style={{ border: 'none', pointerEvents: 'auto', display: 'block' }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  style={{
+                    border: 'none',
+                    display: 'block',
+                    width: '100%',
+                    height: '100%'
+                  }}
                   title="Video player"
                   allowFullScreen
-                />
-                {/* Overlay to prevent YouTube UI interactions but allow scroll */}
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background: 'transparent'
-                  }}
                 />
               </div>
 
