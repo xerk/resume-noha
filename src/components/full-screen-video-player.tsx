@@ -250,14 +250,15 @@ export const FullScreenVideoPlayer = () => {
                   ref={(el) => {
                     iframeRefs.current[index] = el;
                   }}
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=0&fs=0&color=white&autohide=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1`}
                   className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  allow="autoplay; encrypted-media; picture-in-picture"
                   style={{
                     border: 'none',
                     display: 'block',
                     width: '100%',
-                    height: '100%'
+                    height: '100%',
+                    pointerEvents: 'none'
                   }}
                   title="Video player"
                   allowFullScreen
