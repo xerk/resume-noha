@@ -20,6 +20,14 @@ interface AutoScrollReelsProps {
   reels: Reel[];
 }
 
+// Declare YouTube API types
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
 export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
   const { openPlayer } = useVideoPlayer();
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -31,9 +39,46 @@ export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
   const scrollPositionRef = React.useRef(0);
   const [preloadedVideos, setPreloadedVideos] = React.useState<Set<number>>(new Set());
   const pauseTimerRef = React.useRef<NodeJS.Timeout>();
+  const playersRef = React.useRef<{ [key: number]: any }>({});
+  const [apiReady, setApiReady] = React.useState(false);
 
   // Duplicate reels for infinite loop effect
   const infiniteReels = [...reels, ...reels, ...reels];
+
+  // Load YouTube IFrame API (check if already loaded by full-screen player)
+  React.useEffect(() => {
+    // Check if API is already loaded
+    if (window.YT && window.YT.Player) {
+      setApiReady(true);
+      return;
+    }
+
+    // Check if script is already being loaded
+    const existingScript = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
+    if (existingScript) {
+      // Script is loading, wait for callback
+      const checkReady = setInterval(() => {
+        if (window.YT && window.YT.Player) {
+          setApiReady(true);
+          clearInterval(checkReady);
+        }
+      }, 100);
+      return () => clearInterval(checkReady);
+    }
+
+    // Load the API if not present
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+    // Set callback for when API is ready
+    const originalCallback = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      setApiReady(true);
+      if (originalCallback) originalCallback();
+    };
+  }, []);
 
   // Intersection Observer to detect when section is in view
   React.useEffect(() => {
@@ -219,20 +264,43 @@ export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
                   sizes="70vw"
                 />
 
-                {/* Show video on hover or when visible */}
-                {shouldShowVideo && videoId && (
+                {/* Show video on hover or when visible - YouTube API version */}
+                {shouldShowVideo && videoId && apiReady && (
                   <div className="absolute inset-0 h-full w-full overflow-hidden rounded-xl">
-                    <div className="absolute inset-0" style={{ transform: 'scale(1.2)' }}>
-                      <iframe
-                        key={`video-${index}`}
-                        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1`}
-                        className="absolute inset-0 w-full h-full"
-                        allow="autoplay; encrypted-media; picture-in-picture"
-                        style={{ border: 'none', pointerEvents: 'none', display: 'block' }}
-                        title="Video preview"
-                        loading="lazy"
-                      />
-                    </div>
+                    <div
+                      id={`preview-player-${index}`}
+                      className="absolute inset-0 w-full h-full"
+                      ref={(el) => {
+                        if (el && !playersRef.current[index]) {
+                          playersRef.current[index] = new window.YT.Player(`preview-player-${index}`, {
+                            height: '100%',
+                            width: '100%',
+                            videoId: videoId,
+                            playerVars: {
+                              autoplay: 1,
+                              mute: 1,
+                              playsinline: 1,
+                              enablejsapi: 1,
+                              controls: 0,
+                              disablekb: 1,
+                              loop: 1,
+                              playlist: videoId,
+                              rel: 0,
+                              modestbranding: 1,
+                              iv_load_policy: 3,
+                              fs: 0,
+                              showinfo: 0,
+                            },
+                            events: {
+                              onReady: (event: any) => {
+                                event.target.mute();
+                                event.target.playVideo();
+                              },
+                            },
+                          });
+                        }
+                      }}
+                    />
                     {/* Overlay to hide YouTube branding */}
                     <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/50 to-transparent pointer-events-none z-10" />
                     <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-10" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, transparent 100%)' }} />
