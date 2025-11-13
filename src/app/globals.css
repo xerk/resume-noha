@@ -216,6 +216,36 @@ code[data-line-numbers-max-digits="3"] > [data-line]::before {
   }
 }
 
+/* YouTube Player Full Screen Fix */
+#player-0 iframe,
+#player-1 iframe,
+#player-2 iframe,
+#player-3 iframe,
+#player-4 iframe,
+#player-5 iframe,
+#player-6 iframe,
+#player-7 iframe,
+#player-8 iframe,
+#player-9 iframe,
+#player-10 iframe,
+#player-11 iframe,
+#player-12 iframe,
+#player-13 iframe,
+#player-14 iframe,
+#player-15 iframe,
+#player-16 iframe,
+#player-17 iframe,
+#player-18 iframe,
+#player-19 iframe,
+#player-20 iframe {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
 /* Enhanced Prose Styles */
 .prose {
   --tw-prose-headings: theme('colors.white');
