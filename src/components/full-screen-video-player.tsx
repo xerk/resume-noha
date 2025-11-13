@@ -246,11 +246,19 @@ export const FullScreenVideoPlayer = () => {
                   ref={(el) => {
                     iframeRefs.current[index] = el;
                   }}
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1&enablejsapi=1`}
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
                   className="absolute inset-0 w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  style={{ border: 'none', pointerEvents: 'none' }}
+                  style={{ border: 'none', pointerEvents: 'auto' }}
                   title="Video player"
+                  allowFullScreen
+                />
+                {/* Overlay to prevent YouTube UI interactions but allow scroll */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: 'transparent'
+                  }}
                 />
               </div>
 
