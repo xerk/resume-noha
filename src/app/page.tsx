@@ -1,3 +1,5 @@
+"use client";
+
 import { HackathonCard } from "@/components/hackathon-card";
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
@@ -14,10 +16,13 @@ import { PlayIcon, ChevronRight } from "lucide-react";
 import { DownloadButton } from "@/components/magicui/download-button";
 import { AudioPlayerButton } from "@/components/audio-player-button";
 import { AutoScrollReels } from "@/components/auto-scroll-reels";
+import { useVideoPlayer } from "@/contexts/video-player-context";
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
+  const { openPlayer } = useVideoPlayer();
+
   // Filter reels from projects to show as stories on homepage
   const reelPreviews = DATA.projects
     .filter((project) => project.type && project.type === "reel")
@@ -30,6 +35,14 @@ export default function Page() {
       thumbnail: project.video?.thumbnail || project.image || "",
       video: project.video?.url || "",
     }));
+
+  // Handle avatar click to open random reel
+  const handleAvatarClick = () => {
+    if (reelPreviews.length > 0) {
+      const randomIndex = Math.floor(Math.random() * reelPreviews.length);
+      openPlayer(reelPreviews, randomIndex);
+    }
+  };
 
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10">
@@ -53,10 +66,26 @@ export default function Page() {
               />
             </div>
             <BlurFade delay={BLUR_FADE_DELAY}>
-              <Avatar className="size-28 border">
-                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
-                <AvatarFallback>{DATA.initials}</AvatarFallback>
-              </Avatar>
+              <div
+                onClick={handleAvatarClick}
+                className="relative cursor-pointer group"
+              >
+                {/* Story-style gradient ring */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[3px] animate-pulse group-hover:animate-none">
+                  <div className="w-full h-full rounded-full bg-background" />
+                </div>
+                {/* Avatar */}
+                <Avatar className="size-28 border-4 border-background relative z-10">
+                  <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
+                  <AvatarFallback>{DATA.initials}</AvatarFallback>
+                </Avatar>
+                {/* Play icon overlay on hover */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                  <div className="rounded-full bg-black/50 p-2">
+                    <PlayIcon className="h-6 w-6 text-white fill-white" />
+                  </div>
+                </div>
+              </div>
             </BlurFade>
           </div>
         </div>
