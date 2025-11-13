@@ -20,65 +20,17 @@ interface AutoScrollReelsProps {
   reels: Reel[];
 }
 
-// Declare YouTube API types
-declare global {
-  interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: () => void;
-  }
-}
-
 export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
   const { openPlayer } = useVideoPlayer();
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = React.useState(false);
   const [isInView, setIsInView] = React.useState(false);
-  const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
   const [visibleReelIndex, setVisibleReelIndex] = React.useState<number | null>(null);
   const scrollPositionRef = React.useRef(0);
-  const [preloadedVideos, setPreloadedVideos] = React.useState<Set<number>>(new Set());
-  const pauseTimerRef = React.useRef<NodeJS.Timeout>();
-  const playersRef = React.useRef<{ [key: number]: any }>({});
-  const [apiReady, setApiReady] = React.useState(false);
 
   // Duplicate reels for infinite loop effect
   const infiniteReels = [...reels, ...reels, ...reels];
-
-  // Load YouTube IFrame API (check if already loaded by full-screen player)
-  React.useEffect(() => {
-    // Check if API is already loaded
-    if (window.YT && window.YT.Player) {
-      setApiReady(true);
-      return;
-    }
-
-    // Check if script is already being loaded
-    const existingScript = document.querySelector('script[src="https://www.youtube.com/iframe_api"]');
-    if (existingScript) {
-      // Script is loading, wait for callback
-      const checkReady = setInterval(() => {
-        if (window.YT && window.YT.Player) {
-          setApiReady(true);
-          clearInterval(checkReady);
-        }
-      }, 100);
-      return () => clearInterval(checkReady);
-    }
-
-    // Load the API if not present
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
-    // Set callback for when API is ready
-    const originalCallback = window.onYouTubeIframeAPIReady;
-    window.onYouTubeIframeAPIReady = () => {
-      setApiReady(true);
-      if (originalCallback) originalCallback();
-    };
-  }, []);
 
   // Intersection Observer to detect when section is in view
   React.useEffect(() => {
@@ -264,42 +216,16 @@ export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
                   sizes="70vw"
                 />
 
-                {/* Show video on hover or when visible - YouTube API version */}
-                {shouldShowVideo && videoId && apiReady && (
+                {/* Show video when visible - Simple iframe like test video */}
+                {shouldShowVideo && videoId && (
                   <div className="absolute inset-0 h-full w-full overflow-hidden rounded-xl">
-                    <div
-                      id={`preview-player-${index}`}
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1`}
                       className="absolute inset-0 w-full h-full"
-                      ref={(el) => {
-                        if (el && !playersRef.current[index]) {
-                          playersRef.current[index] = new window.YT.Player(`preview-player-${index}`, {
-                            height: '100%',
-                            width: '100%',
-                            videoId: videoId,
-                            playerVars: {
-                              autoplay: 1,
-                              mute: 1,
-                              playsinline: 1,
-                              enablejsapi: 1,
-                              controls: 0,
-                              disablekb: 1,
-                              loop: 1,
-                              playlist: videoId,
-                              rel: 0,
-                              modestbranding: 1,
-                              iv_load_policy: 3,
-                              fs: 0,
-                              showinfo: 0,
-                            },
-                            events: {
-                              onReady: (event: any) => {
-                                event.target.mute();
-                                event.target.playVideo();
-                              },
-                            },
-                          });
-                        }
-                      }}
+                      allow="autoplay; encrypted-media; picture-in-picture"
+                      style={{ border: 'none', display: 'block' }}
+                      title={reel.title || reel.id}
+                      allowFullScreen
                     />
                     {/* Overlay to hide YouTube branding */}
                     <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/50 to-transparent pointer-events-none z-10" />
