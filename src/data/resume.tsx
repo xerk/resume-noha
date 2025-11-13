@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import { HomeIcon, NotebookIcon } from "lucide-react";
+import { HomeIcon, NotebookIcon, Film } from "lucide-react";
 
 export const DATA = {
   name: "Noha Fathy",
@@ -30,6 +30,7 @@ export const DATA = {
   ],
   navbar: [
     { href: "/", icon: HomeIcon, label: "Home" },
+    { href: "/reels", icon: Film, label: "Reels" },
     // { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
@@ -128,6 +129,7 @@ export const DATA = {
       href: "#",
       dates: "2018",
       active: false,
+      type: "project",
       description:
         "Award-winning graduation project showcasing excellence in television production and content creation.",
       technologies: [
@@ -143,6 +145,144 @@ export const DATA = {
       video: {
         thumbnail: "/projects/talkshow.png",
         url: "/projects/talkshow.mp4",
+        hasAudio: true,
+      },
+    },
+    // Reels - YouTube Shorts
+    {
+      title: "Content Creation Showcase",
+      href: "https://youtube.com/shorts/vG612DgAaO8",
+      dates: "2024",
+      active: true,
+      type: "reel",
+      description:
+        "Behind the scenes of my content creation process and creative workflow.",
+      technologies: ["Video Production", "Content Creation", "Editing"],
+      links: [],
+      image: "https://img.youtube.com/vi/vG612DgAaO8/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/vG612DgAaO8/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/vG612DgAaO8",
+        hasAudio: true,
+      },
+    },
+    {
+      title: "Voice Over Demo Reel",
+      href: "https://youtube.com/shorts/yXNblAVMYhY",
+      dates: "2024",
+      active: true,
+      type: "reel",
+      description:
+        "Compilation of various voice-over projects showcasing range and versatility.",
+      technologies: ["Voice Over", "Audio Production", "Adobe Audition"],
+      links: [],
+      image: "https://img.youtube.com/vi/yXNblAVMYhY/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/yXNblAVMYhY/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/yXNblAVMYhY",
+        hasAudio: true,
+      },
+    },
+    {
+      title: "Marketing Campaign Highlight",
+      href: "https://youtube.com/shorts/7O2-5A69vV4",
+      dates: "2024",
+      active: true,
+      type: "reel",
+      description:
+        "Key highlights from recent marketing campaigns and creative projects.",
+      technologies: ["Marketing", "Creative Direction", "Copywriting"],
+      links: [],
+      image: "https://img.youtube.com/vi/7O2-5A69vV4/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/7O2-5A69vV4/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/7O2-5A69vV4",
+        hasAudio: true,
+      },
+    },
+    {
+      title: "Professional Work Sample",
+      href: "https://youtube.com/shorts/DEDdW8zac4w",
+      dates: "2024",
+      active: true,
+      type: "reel",
+      description:
+        "Professional work samples demonstrating expertise in content creation.",
+      technologies: ["Content Strategy", "Copywriting", "Production"],
+      links: [],
+      image: "https://img.youtube.com/vi/DEDdW8zac4w/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/DEDdW8zac4w/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/DEDdW8zac4w",
+        hasAudio: true,
+      },
+    },
+    {
+      title: "Creative Portfolio Piece",
+      href: "https://youtube.com/shorts/SbQXV55oVAk",
+      dates: "2024",
+      active: true,
+      type: "reel",
+      description:
+        "Creative portfolio piece showcasing versatility and creative direction.",
+      technologies: ["Creative Direction", "Video Production"],
+      links: [],
+      image: "https://img.youtube.com/vi/SbQXV55oVAk/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/SbQXV55oVAk/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/SbQXV55oVAk",
+        hasAudio: true,
+      },
+    },
+    // Stories - YouTube Shorts (same content, displayed as stories)
+    {
+      title: "Daily Content Tips",
+      href: "https://youtube.com/shorts/vG612DgAaO8",
+      dates: "2024",
+      active: true,
+      type: "story",
+      description:
+        "Quick tips and insights on content creation and copywriting.",
+      technologies: ["Content Strategy", "Tips & Tricks"],
+      links: [],
+      image: "https://img.youtube.com/vi/vG612DgAaO8/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/vG612DgAaO8/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/vG612DgAaO8",
+        hasAudio: true,
+      },
+    },
+    {
+      title: "Behind the Mic",
+      href: "https://youtube.com/shorts/yXNblAVMYhY",
+      dates: "2024",
+      active: true,
+      type: "story",
+      description:
+        "A glimpse into the voice-over recording process.",
+      technologies: ["Voice Over", "Studio Setup"],
+      links: [],
+      image: "https://img.youtube.com/vi/yXNblAVMYhY/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/yXNblAVMYhY/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/yXNblAVMYhY",
+        hasAudio: true,
+      },
+    },
+    {
+      title: "Creative Process",
+      href: "https://youtube.com/shorts/7O2-5A69vV4",
+      dates: "2024",
+      active: true,
+      type: "story",
+      description:
+        "How I approach brainstorming and developing creative concepts.",
+      technologies: ["Creative Direction", "Strategy"],
+      links: [],
+      image: "https://img.youtube.com/vi/7O2-5A69vV4/maxresdefault.jpg",
+      video: {
+        thumbnail: "https://img.youtube.com/vi/7O2-5A69vV4/maxresdefault.jpg",
+        url: "https://youtube.com/shorts/7O2-5A69vV4",
         hasAudio: true,
       },
     },

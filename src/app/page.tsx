@@ -10,13 +10,27 @@ import Link from "next/link";
 import Markdown from "react-markdown";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { PlayIcon } from "lucide-react";
+import { PlayIcon, ChevronRight } from "lucide-react";
 import { DownloadButton } from "@/components/magicui/download-button";
 import { AudioPlayerButton } from "@/components/audio-player-button";
+import { AutoScrollReels } from "@/components/auto-scroll-reels";
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
+  // Filter reels from projects to show as stories on homepage
+  const reelPreviews = DATA.projects
+    .filter((project) => project.type && project.type === "reel")
+    .map((project) => ({
+      id: project.title,
+      title: project.title,
+      author: DATA.name,
+      avatar: DATA.avatarUrl,
+      fallback: DATA.initials,
+      thumbnail: project.video?.thumbnail || project.image || "",
+      video: project.video?.url || "",
+    }));
+
   return (
     <main className="flex flex-col min-h-[100dvh] space-y-10">
       <section id="hero">
@@ -147,8 +161,28 @@ export default function Page() {
               </div>
             </div>
           </BlurFade>
+
+          {/* Reels Preview Section - Show all reels with auto-scroll */}
+          {reelPreviews.length > 0 && (
+            <BlurFade delay={BLUR_FADE_DELAY * 11.5}>
+              <div className="max-w-[800px] mx-auto space-y-4 px-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Reels</h3>
+                  <Link
+                    href="/reels"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                  >
+                    View All
+                    <ChevronRight className="h-4 w-4" />
+                  </Link>
+                </div>
+                <AutoScrollReels reels={reelPreviews} />
+              </div>
+            </BlurFade>
+          )}
+
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-            {DATA.projects.filter(project => project.active).map((project, id) => (
+            {DATA.projects.filter(project => project.active && ((project as any).type === undefined || (project as any).type === "project")).map((project, id) => (
               <BlurFade
                   key={project.title}
                   delay={BLUR_FADE_DELAY * 12 + id * 0.05}
@@ -161,7 +195,7 @@ export default function Page() {
                     dates={project?.dates}
                     tags={project.technologies}
                     image={project.image}
-                    video={project.video}
+                    video={project.video?.url}
                     links={project.links}
                   />
                 </BlurFade>
