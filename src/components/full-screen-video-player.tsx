@@ -11,6 +11,8 @@ export const FullScreenVideoPlayer = () => {
   const [viewportHeight, setViewportHeight] = React.useState(0);
   const playerContainerRef = React.useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = React.useState(false);
+  const [isMuted, setIsMuted] = React.useState(true);
+  const iframeRefs = React.useRef<{ [key: number]: HTMLIFrameElement | null }>({});
 
   // Handle mounting for client-side rendering
   React.useEffect(() => {
@@ -109,6 +111,22 @@ export const FullScreenVideoPlayer = () => {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [isPlayerOpen, currentReelIndex, reels.length, viewportHeight, setCurrentReelIndex]);
 
+  // Handle mute/unmute via iframe reload
+  React.useEffect(() => {
+    if (!isPlayerOpen) return;
+
+    // Reload iframes with updated mute parameter
+    Object.keys(iframeRefs.current).forEach((key) => {
+      const index = parseInt(key);
+      const iframe = iframeRefs.current[index];
+      if (iframe && iframe.src) {
+        const url = new URL(iframe.src);
+        url.searchParams.set('mute', isMuted ? '1' : '0');
+        iframe.src = url.toString();
+      }
+    });
+  }, [isMuted, isPlayerOpen]);
+
   if (!mounted || !isPlayerOpen) return null;
 
   return createPortal(
@@ -137,6 +155,27 @@ export const FullScreenVideoPlayer = () => {
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
+      </button>
+
+      {/* Sound Toggle Button */}
+      <button
+        onClick={() => setIsMuted(!isMuted)}
+        className="absolute top-4 right-4 z-[10000] p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+        title={isMuted ? "Unmute" : "Mute"}
+      >
+        {isMuted ? (
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+        )}
       </button>
 
       {/* Tutorial Overlay */}
@@ -204,7 +243,10 @@ export const FullScreenVideoPlayer = () => {
                 style={{ transform: 'scale(1.5)', transformOrigin: 'center' }}
               >
                 <iframe
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=0&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1`}
+                  ref={(el) => {
+                    iframeRefs.current[index] = el;
+                  }}
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1&enablejsapi=1`}
                   className="absolute inset-0 w-full h-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   style={{ border: 'none', pointerEvents: 'none' }}
