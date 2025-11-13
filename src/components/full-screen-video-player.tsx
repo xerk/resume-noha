@@ -5,6 +5,14 @@ import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useVideoPlayer } from "@/contexts/video-player-context";
 
+// Declare YouTube API types
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
 export const FullScreenVideoPlayer = () => {
   const { isPlayerOpen, currentReelIndex, reels, closePlayer, setCurrentReelIndex } = useVideoPlayer();
   const [showTutorial, setShowTutorial] = React.useState(false);
@@ -12,12 +20,35 @@ export const FullScreenVideoPlayer = () => {
   const playerContainerRef = React.useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = React.useState(false);
   const [isMuted, setIsMuted] = React.useState(true);
-  const iframeRefs = React.useRef<{ [key: number]: HTMLIFrameElement | null }>({});
+  const playersRef = React.useRef<{ [key: number]: any }>({});
+  const [apiReady, setApiReady] = React.useState(false);
 
   // Handle mounting for client-side rendering
   React.useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Load YouTube IFrame API
+  React.useEffect(() => {
+    if (!mounted) return;
+
+    // Check if API is already loaded
+    if (window.YT && window.YT.Player) {
+      setApiReady(true);
+      return;
+    }
+
+    // Load the API
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+    // Set callback for when API is ready
+    window.onYouTubeIframeAPIReady = () => {
+      setApiReady(true);
+    };
+  }, [mounted]);
 
   // Calculate and update viewport height (handles mobile address bar)
   React.useEffect(() => {
@@ -111,21 +142,22 @@ export const FullScreenVideoPlayer = () => {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [isPlayerOpen, currentReelIndex, reels.length, viewportHeight, setCurrentReelIndex]);
 
-  // Handle mute/unmute via iframe reload
+  // Handle mute/unmute via YouTube API (without reloading iframe)
   React.useEffect(() => {
-    if (!isPlayerOpen) return;
+    if (!isPlayerOpen || !apiReady) return;
 
-    // Reload iframes with updated mute parameter
-    Object.keys(iframeRefs.current).forEach((key) => {
-      const index = parseInt(key);
-      const iframe = iframeRefs.current[index];
-      if (iframe && iframe.src) {
-        const url = new URL(iframe.src);
-        url.searchParams.set('mute', isMuted ? '1' : '0');
-        iframe.src = url.toString();
+    // Use YouTube API to mute/unmute without reloading
+    Object.keys(playersRef.current).forEach((key) => {
+      const player = playersRef.current[parseInt(key)];
+      if (player && player.mute && player.unMute) {
+        if (isMuted) {
+          player.mute();
+        } else {
+          player.unMute();
+        }
       }
     });
-  }, [isMuted, isPlayerOpen]);
+  }, [isMuted, isPlayerOpen, apiReady]);
 
   if (!mounted || !isPlayerOpen) return null;
 
@@ -237,22 +269,39 @@ export const FullScreenVideoPlayer = () => {
                 overflow: 'hidden'
               }}
             >
-              {/* Video iframe */}
-              <iframe
-                ref={(el) => {
-                  iframeRefs.current[index] = el;
-                }}
-                src={`https://www.youtube.com/embed/${videoId}?autoplay=${index === currentReelIndex ? 1 : 0}&mute=1&controls=1&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&fs=0&color=white&autohide=1`}
+              {/* Video iframe with YouTube API */}
+              <div
+                id={`player-${index}`}
                 className="absolute inset-0 w-full h-full"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                style={{
-                  border: 'none',
-                  display: 'block',
-                  width: '100%',
-                  height: '100%'
+                ref={(el) => {
+                  if (el && apiReady && window.YT && !playersRef.current[index]) {
+                    playersRef.current[index] = new window.YT.Player(`player-${index}`, {
+                      height: '100%',
+                      width: '100%',
+                      videoId: videoId,
+                      playerVars: {
+                        autoplay: index === currentReelIndex ? 1 : 0,
+                        mute: 1,
+                        playsinline: 1,
+                        enablejsapi: 1,
+                        controls: 0,
+                        loop: 1,
+                        playlist: videoId,
+                        rel: 0,
+                        modestbranding: 1,
+                        iv_load_policy: 3,
+                      },
+                      events: {
+                        onReady: (event: any) => {
+                          if (index === currentReelIndex) {
+                            event.target.mute();
+                            event.target.playVideo();
+                          }
+                        },
+                      },
+                    });
+                  }
                 }}
-                title="Video player"
-                allowFullScreen
               />
 
               {/* Bottom Info Overlay */}
