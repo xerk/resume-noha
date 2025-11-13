@@ -142,6 +142,24 @@ export const FullScreenVideoPlayer = () => {
     return () => container.removeEventListener('scroll', handleScroll);
   }, [isPlayerOpen, currentReelIndex, reels.length, viewportHeight, setCurrentReelIndex]);
 
+  // Handle play/pause based on current reel index
+  React.useEffect(() => {
+    if (!isPlayerOpen || !apiReady) return;
+
+    // Play current video and pause all others
+    Object.keys(playersRef.current).forEach((key) => {
+      const index = parseInt(key);
+      const player = playersRef.current[index];
+      if (player && player.playVideo && player.pauseVideo) {
+        if (index === currentReelIndex) {
+          player.playVideo();
+        } else {
+          player.pauseVideo();
+        }
+      }
+    });
+  }, [currentReelIndex, isPlayerOpen, apiReady]);
+
   // Handle mute/unmute via YouTube API (without reloading iframe)
   React.useEffect(() => {
     if (!isPlayerOpen || !apiReady) return;
