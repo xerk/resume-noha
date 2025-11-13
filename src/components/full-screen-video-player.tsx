@@ -316,6 +316,10 @@ export const FullScreenVideoPlayer = () => {
                         iv_load_policy: 3,
                         fs: 0,
                         showinfo: 0,
+                        autohide: 1,
+                        cc_load_policy: 0,
+                        color: 'white',
+                        origin: typeof window !== 'undefined' ? window.location.origin : '',
                       },
                       events: {
                         onReady: (event: any) => {
@@ -356,7 +360,10 @@ export const FullScreenVideoPlayer = () => {
               </div>
 
               {/* Top gradient to hide any YouTube branding */}
-              <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black/70 to-transparent pointer-events-none z-[9999]" />
+              <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-[9999]" />
+
+              {/* Additional overlay to hide YouTube logo and title on right side */}
+              <div className="absolute top-0 right-0 w-32 h-24 bg-gradient-to-l from-black via-black/90 to-transparent pointer-events-none z-[9999]" />
             </div>
           );
         })}

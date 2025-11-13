@@ -191,29 +191,9 @@ export default function Page() {
             </div>
           </BlurFade>
 
-          {/* Test YouTube Embed for Mobile */}
-          <BlurFade delay={BLUR_FADE_DELAY * 11.3}>
-            <div className="max-w-[800px] mx-auto space-y-4 px-6">
-              <h3 className="text-lg font-semibold text-center">Mobile Video Test</h3>
-              <div className="relative w-full aspect-[9/16] max-w-[300px] mx-auto bg-black rounded-lg overflow-hidden">
-                <iframe
-                  src="https://www.youtube.com/embed/zQ746TFTk40?autoplay=1&mute=1&controls=1&loop=1&playlist=zQ746TFTk40&playsinline=1"
-                  className="absolute inset-0 w-full h-full"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  style={{ border: 'none', display: 'block' }}
-                  title="Test Video"
-                  allowFullScreen
-                />
-              </div>
-              <p className="text-sm text-muted-foreground text-center">
-                If this video doesn&apos;t autoplay on mobile, it&apos;s a YouTube/browser limitation
-              </p>
-            </div>
-          </BlurFade>
-
           {/* Reels Preview Section - Show all reels with auto-scroll */}
           {reelPreviews.length > 0 && (
-            <BlurFade delay={BLUR_FADE_DELAY * 11.5}>
+            <BlurFade delay={BLUR_FADE_DELAY * 11.3}>
               <div className="max-w-[800px] mx-auto space-y-4 px-6">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">Reels</h3>
