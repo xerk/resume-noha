@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { PlayIcon } from "lucide-react";
 import { useVideoPlayer } from "@/contexts/video-player-context";
 import { DATA } from "@/data/resume";
@@ -44,10 +45,12 @@ export const ReelsGrid = ({ reels }: ReelsGridProps) => {
             onClick={() => openPlayer(transformedReels, index)}
           >
             {/* Thumbnail */}
-            <img
+            <Image
               src={reel.thumbnail}
               alt={reel.title || reel.id}
-              className="h-full w-full object-cover transition-all duration-300 group-hover:scale-110"
+              fill
+              className="object-cover transition-all duration-300 group-hover:scale-110"
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
 
             {/* Gradient Overlay */}

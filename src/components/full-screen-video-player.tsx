@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import { useVideoPlayer } from "@/contexts/video-player-context";
 
@@ -220,11 +221,13 @@ export const FullScreenVideoPlayer = () => {
                     </h3>
                   )}
                   <div className="flex items-center gap-2">
-                    <div className="h-10 w-10 rounded-full border-2 border-white overflow-hidden flex-shrink-0">
-                      <img
+                    <div className="h-10 w-10 rounded-full border-2 border-white overflow-hidden flex-shrink-0 relative">
+                      <Image
                         src={reel.avatar}
                         alt={reel.author}
-                        className="h-full w-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="40px"
                       />
                     </div>
                     <span className="text-white font-medium drop-shadow-lg">

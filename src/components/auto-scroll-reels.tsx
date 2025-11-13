@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { PlayIcon } from "lucide-react";
 import { useVideoPlayer } from "@/contexts/video-player-context";
@@ -208,12 +209,14 @@ export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
             >
               <div className="relative h-full w-full overflow-hidden rounded-xl bg-black">
                 {/* Always show thumbnail for instant display */}
-                <img
+                <Image
                   src={reel.thumbnail}
                   alt={reel.id}
-                  className={`h-full w-full object-cover transition-all duration-300 ${
+                  fill
+                  className={`object-cover transition-all duration-300 ${
                     shouldShowVideo && videoId ? 'opacity-0' : 'opacity-100 group-hover:scale-110'
                   }`}
+                  sizes="70vw"
                 />
 
                 {/* Show video on hover or when visible */}
@@ -256,11 +259,13 @@ export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
                 )}
                 {/* Author info */}
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full border-2 border-white overflow-hidden flex-shrink-0">
-                    <img
+                  <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full border-2 border-white overflow-hidden flex-shrink-0 relative">
+                    <Image
                       src={reel.avatar}
                       alt={reel.author}
-                      className="h-full w-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="32px"
                     />
                   </div>
                   <span className="text-xs sm:text-sm font-medium text-white drop-shadow-lg">
