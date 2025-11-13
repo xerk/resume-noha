@@ -228,7 +228,7 @@ export const AutoScrollReels = ({ reels }: AutoScrollReelsProps) => {
                         src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&color=white&autohide=1`}
                         className="absolute inset-0 w-full h-full"
                         allow="autoplay; encrypted-media"
-                        style={{ border: 'none', pointerEvents: 'none' }}
+                        style={{ border: 'none', pointerEvents: 'none', display: 'block' }}
                         title="Video preview"
                         loading="lazy"
                       />
